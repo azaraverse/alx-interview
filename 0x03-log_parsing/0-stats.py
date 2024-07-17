@@ -9,7 +9,7 @@ import signal
 
 # initialise accumulator, status counts and line counts
 total_size: int = 0
-status_counts: 'dict[int, int]' = {
+status_counts = {
     200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0
 }
 line_count: int = 0
@@ -21,8 +21,9 @@ def log_stats():
     Logs statistics to the stdout
     """
     sys.stdout.write(f'File size: {total_size}\n')
-    for key in sorted(status_counts):
-        sys.stdout.write(f'{key}: {status_counts[key]}\n')
+    for key in sorted(status_counts.keys()):
+        if status_counts[key] > 0:
+            sys.stdout.write(f'{key}: {status_counts[key]}\n')
 
 
 # signal handler for keyboard interrupt
@@ -35,10 +36,7 @@ def signal_handler(sig, frame):
     sys.exit(0)
 
 
-signal.signal(signal.SIGINT, signal_handler)
-
 # define a regex to match the desired status code and file size inputs
-# <status_code>: <file_size>
 regex = r'^\S+ - \[\S+ \S+\] "GET /projects/260 HTTP/1.1" (\d{3}) (\d+)$'
 
 # test input
@@ -68,14 +66,12 @@ try:
         if line_count == 10:
             log_stats()
             line_count = 0
-
-
 except KeyboardInterrupt:
     """
     Logs the stats to the stdout and graciously exits when program is
     interrupted by the user
     """
     signal.signal(signal.SIGINT, signal_handler)
-
-# print final status codes if script ends normally
-log_stats()
+finally:
+    # print final status codes if script ends normally
+    log_stats()
