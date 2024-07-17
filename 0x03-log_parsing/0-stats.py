@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-""""""
+"""
+Log Parsing:
+    Reads stdin line by line and computes metrics.
+"""
 import sys
 import re
 import signal
@@ -14,7 +17,9 @@ line_count: int = 0
 
 # define a log_stats function that logs the stats to stdout
 def log_stats():
-    """"""
+    """
+    Logs statistics to the stdout
+    """
     sys.stdout.write(f'File size: {total_size}\n')
     for key in sorted(status_counts):
         sys.stdout.write(f'{key}: {status_counts[key]}\n')
@@ -22,6 +27,10 @@ def log_stats():
 
 # signal handler for keyboard interrupt
 def signal_handler(sig, frame):
+    """
+    Handles keyboard interruption CTRL+C and logs statistics to the stdout
+    before exiting with success
+    """
     log_stats()
     sys.exit(0)
 
@@ -33,7 +42,6 @@ signal.signal(signal.SIGINT, signal_handler)
 regex = r'^\S+ - \[\S+ \S+\] "GET /projects/260 HTTP/1.1" (\d{3}) (\d+)$'
 
 # test input
-# print('Enter log data:')
 try:
     for line in sys.stdin:
         # remove leading and trailing whitespace
@@ -44,11 +52,7 @@ try:
 
         # extract status code and file size from regex expression
         status_code = int(re.match(regex, line).group(1))
-        # check output
-        # print(f'{status_code}')
         file_size = int(re.match(regex, line).group(2))
-        # check output
-        # print(f'{file_size}')
 
         # update the total file size
         total_size += file_size
@@ -67,7 +71,10 @@ try:
 
 
 except KeyboardInterrupt:
-    """"""
+    """
+    Logs the stats to the stdout and graciously exits when program is
+    interrupted by the user
+    """
     signal.signal(signal.SIGINT, signal_handler)
 
 # print final status codes if script ends normally
