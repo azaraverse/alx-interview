@@ -8,11 +8,11 @@ import re
 import signal
 
 # initialise accumulator, status counts and line counts
-total_size: int = 0
+total_size = 0
 status_counts = {
     200: 0, 301: 0, 400: 0, 401: 0, 403: 0, 404: 0, 405: 0, 500: 0
 }
-line_count: int = 0
+line_count = 0
 
 
 # define a log_stats function that logs the stats to stdout
@@ -37,7 +37,7 @@ def signal_handler(sig, frame):
 
 
 # define a regex to match the desired status code and file size inputs
-regex = r'^\S+ - \[\S+ \S+\] "GET /projects/260 HTTP/1.1" (\d{3}) (\d+)$'
+regex = r'^\S+ ?- ?\[\S+ \S+\] "GET /projects/260 HTTP/1.1" (\d{3}) (\d+)$'
 
 # test input
 try:
