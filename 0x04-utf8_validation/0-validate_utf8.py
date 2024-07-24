@@ -46,6 +46,9 @@ def validUTF8(data: List) -> bool:
 
     # enter a loop to iterate over each byte in the input data
     for byte in data:
+        # check if bytes are out of valid utf8 range (0-255)
+        if byte > 255:
+            return False
         bit_mask = 1 << 7
 
         # process the bytes
@@ -67,4 +70,11 @@ def validUTF8(data: List) -> bool:
             # than 4, return False.
             if bytes == 1 or bytes > 4:
                 return False
-    return bytes == 0
+
+        else:
+            # if number of bytes is not 0, check that the next byte starts
+            # with 10
+            if not (byte & bit_mask1 and not (byte & bit_mask2)):
+                return False
+        bytes -= 1
+    return bytes == 0  # returns True
