@@ -1,10 +1,9 @@
 #!/usr/bin/python3
 """ Rotate 2D Matrix
 """
-from typing import List, Any
 
 
-def rotate_2d_matrix(matrix: List[List[Any]]):
+def rotate_2d_matrix(matrix):
     """ Rotate a matrix in place 90 degrees clockwise
     """
     n = len(matrix)
