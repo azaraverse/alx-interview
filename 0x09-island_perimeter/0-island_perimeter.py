@@ -8,13 +8,11 @@ def island_perimeter(grid):
     This function calculates the perimeter of a rectangle by accesing
     avaialble 1s and using these to solve for the perimeter value.
 
-    Perimeter = 2 * (l + w).
-
     Args:
-        grid (list of list of int): Rectangle to calculate perimeter of.
+        grid (list of list of int): The grid representing the island.
 
     Returns:
-        Perimeter value.
+        int: The perimeter value of the land.
     """
 
     # grid = [
@@ -33,23 +31,28 @@ def island_perimeter(grid):
     # print(row)
     # print(col)
 
-    grid_length = len(grid)
-    width = 0
-    length = 0
+    perimeter = 0
+    rows = len(grid)
+    cols = len(grid[0])
 
-    for row in range(grid_length):
-        for col in range(len(grid[row])):
-            up = grid[row - 1][col]
-            # down = (row + 1, col)
-            left = grid[row][col - 1]
-            # right = (row, col + 1)
+    for row in range(rows):
+        for col in range(cols):
             if grid[row][col] == 1:
-                if row > 0 and up == 1:
-                    width += 1
-                if col > 0 and left == 1:
-                    length += 1
+                up = grid[row - 1][col]
+                down = grid[row + 1][col]
+                left = grid[row][col - 1]
+                right = grid[row][col + 1]
+                # check the top
+                if row == 0 or up == 0:
+                    perimeter += 1
+                # check the bottom
+                if row == rows - 1 or down == 0:
+                    perimeter += 1
+                # check the left
+                if col == 0 or left == 0:
+                    perimeter += 1
+                # check the right
+                if col == cols - 1 or right == 0:
+                    perimeter += 1
 
-    width += 1
-    length += 1
-
-    return 2 * (width + length)
+    return perimeter
