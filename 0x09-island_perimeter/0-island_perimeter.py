@@ -8,6 +8,12 @@ def island_perimeter(grid):
     This function calculates the perimeter of a rectangle by accesing
     avaialble 1s and using these to solve for the perimeter value.
 
+    Assume each land cell (1) starts with contributing 4 to the perimeter,
+    since it has four sides. If a land cell has a neighbour above it, it
+    shares a side with that neighbour, so subtract 2 from the perimeter.
+    If a land cell also has a neighbour to its left, it shares another
+    side, so subtract 2 from the perimeter.
+
     Args:
         grid (list of list of int): The grid representing the island.
 
@@ -39,20 +45,14 @@ def island_perimeter(grid):
         for col in range(cols):
             if grid[row][col] == 1:
                 up = grid[row - 1][col]
-                down = grid[row + 1][col]
                 left = grid[row][col - 1]
-                right = grid[row][col + 1]
+
+                perimeter += 4
                 # check the top
-                if row == 0 or up == 0:
-                    perimeter += 1
-                # check the bottom
-                if row == rows - 1 or down == 0:
-                    perimeter += 1
+                if row > 0 and up == 1:
+                    perimeter -= 2
                 # check the left
-                if col == 0 or left == 0:
-                    perimeter += 1
-                # check the right
-                if col == cols - 1 or right == 0:
-                    perimeter += 1
+                if col > 0 and left == 1:
+                    perimeter -= 2
 
     return perimeter
