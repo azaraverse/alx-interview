@@ -3,31 +3,30 @@
 """
 
 
-def SieveOfEratosthenes(nums):
+def SieveOfEratosthenes(num):
     """ Sieve and return all prime numbers up to n (inclusive).
     """
-    if not nums:
+    if not num:
         return None
 
-    n = max(nums)
-    if n < 2:
+    if num < 2:
         return None
 
-    prime = [True] * (n + 1)
+    prime = [True] * (num + 1)
 
-    #initialize first prime number
+    # initialize first prime number
     p = 2
 
-    while(p * p <= n):
+    while(p * p <= num):
         # if prime[p] is not changed, then it is a prime number
-        if prime[p] == True:
+        if prime[p] is True:
             # update all multiples of p to be marked as non-prime
-            for i in range(p * p, n + 1, p):
+            for i in range(p * p, num + 1, p):
                 prime[i] = False
         p += 1
 
     primes = []
-    for p in range(2, n + 1):
+    for p in range(2, num + 1):
         if prime[p]:
             primes.append(p)
 
@@ -41,6 +40,40 @@ def isWinner(x, nums):
     if x < 1 or not nums:
         return None
 
+    primes = SieveOfEratosthenes(max(nums))
 
-if __name__ == "__main__":
-    print(SieveOfEratosthenes([2, 5, 1, 4, 3]))
+    # hold wins made by each player
+    maria_wins = 0
+    ben_wins = 0
+
+    for n in nums:
+        primes_in_range = []
+        for p in primes:
+            if p <= n:
+                primes_in_range.append(p)
+
+        # maria should make the first move
+        marias_turn = True
+
+        while primes_in_range:
+            prime = primes_in_range.pop(0)
+
+            new_primes_in_range = []
+            for p in primes_in_range:
+                if p % prime != 0:
+                    new_primes_in_range.append(p)
+
+            primes_in_range = new_primes_in_range
+
+            marias_turn = not marias_turn
+
+        if marias_turn:
+            ben_wins += 1
+        else:
+            maria_wins += 1
+
+    if maria_wins > ben_wins:
+        return 'Maria'
+    elif ben_wins > maria_wins:
+        return 'Ben'
+    return None
