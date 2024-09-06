@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Prime Game Algorithm
 """
+# has a bug for working with a 10000 case.
 
 
 def SieveOfEratosthenes(num):
