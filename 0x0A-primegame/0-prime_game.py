@@ -6,11 +6,6 @@
 def SieveOfEratosthenes(num):
     """ Sieve and return all prime numbers up to n (inclusive).
     """
-    if not num:
-        return None
-
-    if num < 2:
-        return None
 
     prime = [True] * (num + 1)
 
@@ -74,6 +69,10 @@ def isWinner(x, nums):
 
     if maria_wins > ben_wins:
         return 'Maria'
-    elif ben_wins > maria_wins:
+    if ben_wins > maria_wins:
         return 'Ben'
     return None
+
+
+if __name__ == '__main__':
+    print(SieveOfEratosthenes(10000))
